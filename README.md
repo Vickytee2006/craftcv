@@ -1,16 +1,55 @@
-# React + Vite
+# 🚀 CraftCV
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Your career, beautifully crafted.
 
-Currently, two official plugins are available:
+CraftCV is a modern AI-assisted resume builder designed to help users create clean, professional, and ATS-friendly resumes with real-time editing, modern templates, and instant PDF export.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* AI Writing Assistant UI
+* Multiple Resume Templates
+* Instant PDF Export
+* Real-time Resume Preview
+* Dynamic Resume Sections
+* Mobile Responsive Design
+* Fast React + Vite Performance
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+* React
+* Vite
+* Tailwind CSS
+* JavaScript
+* html2canvas
+* jsPDF
+
+---
+
+## ⚙️ Installation
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 🎯 Goals of the Project
+
+This project demonstrates:
+
+* Frontend Engineering
+* React State Management
+* Dynamic Form Handling
+* SaaS UI/UX Design
+* Responsive Web Design
+
+---
+
+## 👨‍💻 Author
+
+Alabi Victor|| TechBoy
