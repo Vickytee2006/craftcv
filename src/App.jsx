@@ -6,6 +6,10 @@ export default function App() {
   const [view, setView] = useState("landing");
   const [template, setTemplate] = useState("modern");
 
+  // MOBILE TABS
+  const [mobileTab, setMobileTab] = useState("editor");
+
+  // AI PANEL
   const [aiOpen, setAiOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiOutput, setAiOutput] = useState("");
@@ -48,14 +52,21 @@ export default function App() {
   });
 
   const setHeader = (k, v) =>
-    setData((p) => ({ ...p, header: { ...p.header, [k]: v } }));
+    setData((p) => ({
+      ...p,
+      header: { ...p.header, [k]: v },
+    }));
 
   const setField = (k, v) =>
-    setData((p) => ({ ...p, [k]: v }));
+    setData((p) => ({
+      ...p,
+      [k]: v,
+    }));
 
   const updateArray = (section, i, k, v) => {
     const copy = [...data[section]];
     copy[i][k] = v;
+
     setField(section, copy);
   };
 
@@ -67,11 +78,13 @@ export default function App() {
         period: "Jan 2020 - Dec 2023",
         desc: "",
       },
+
       education: {
         school: "",
         degree: "",
         period: "Sep 2018 - Jul 2022",
       },
+
       projects: {
         name: "",
         desc: "",
@@ -84,6 +97,7 @@ export default function App() {
     }));
   };
 
+  // PDF EXPORT
   const exportPDF = () => {
     const win = window.open("", "_blank");
 
@@ -91,8 +105,14 @@ export default function App() {
       <html>
         <head>
           <title>CraftCV Resume</title>
+
           <style>
-            body { margin:0; font-family: Arial; background:#f3f4f6; }
+            body {
+              margin:0;
+              font-family: Arial;
+              background:#f3f4f6;
+            }
+
             .page {
               width:210mm;
               min-height:297mm;
@@ -101,19 +121,35 @@ export default function App() {
               padding:28mm;
               box-sizing:border-box;
             }
-            h1 { font-size:28px; margin:0; }
-            h2 { font-size:11px; color:#666; letter-spacing:2px; margin-top:18px; }
-            p { font-size:12px; margin:4px 0; }
+
+            h1 {
+              font-size:28px;
+              margin:0;
+            }
+
+            h2 {
+              font-size:11px;
+              color:#666;
+              letter-spacing:2px;
+              margin-top:18px;
+            }
+
+            p {
+              font-size:12px;
+              margin:4px 0;
+            }
+
             .skill {
               display:inline-block;
               padding:4px 8px;
               border:1px solid #ddd;
+              border-radius:6px;
               font-size:11px;
               margin:3px;
-              border-radius:6px;
             }
           </style>
         </head>
+
         <body>
           <div class="page">
             ${printRef.current.innerHTML}
@@ -127,22 +163,24 @@ export default function App() {
   };
 
   /* ================= LANDING ================= */
+
   if (view === "landing") {
     return (
-      <div className="h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white">
-        <div className="text-center max-w-xl px-6">
+      <div className="h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white px-6">
 
-          <h1 className="text-6xl font-bold tracking-tight">
+        <div className="text-center max-w-xl">
+
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
             CraftCV
           </h1>
 
-          <p className="text-gray-300 mt-3 text-sm">
+          <p className="text-gray-300 mt-3 text-sm md:text-base">
             Your career, beautifully crafted.
           </p>
 
           <p className="text-gray-400 mt-4 text-sm">
-            Build professional, ATS-friendly resumes with AI assistance,
-            modern templates, and instant export.
+            Build professional resumes with AI assistance,
+            modern templates, and instant PDF export.
           </p>
 
           <button
@@ -157,14 +195,18 @@ export default function App() {
   }
 
   /* ================= APP ================= */
-  return (
-    <div className="h-screen flex flex-col bg-[#F5F7FB]">
 
-      {/* TOP BAR */}
-      <div className="h-14 bg-white border-b flex items-center justify-between px-5">
+  return (
+    <div className="h-screen flex flex-col bg-[#F5F7FB] overflow-hidden">
+
+      {/* TOPBAR */}
+      <div className="h-14 bg-white border-b flex items-center justify-between px-4 md:px-5">
 
         <div className="font-semibold text-sm">
-          CraftCV <span className="text-gray-400">Build. Refine. Get Hired.</span>
+          CraftCV{" "}
+          <span className="text-gray-400 hidden md:inline">
+            Build. Refine. Get Hired.
+          </span>
         </div>
 
         <div className="flex gap-2">
@@ -180,34 +222,83 @@ export default function App() {
             onClick={() => setAiOpen(true)}
             className="text-xs px-3 py-1 border rounded"
           >
-            AI Assist
+            AI
           </button>
 
           <button
             onClick={exportPDF}
             className="bg-black text-white text-xs px-3 py-1 rounded"
           >
-            Export PDF
+            Export
           </button>
         </div>
       </div>
 
+      {/* MOBILE TABS */}
+      <div className="md:hidden flex border-b bg-white">
+
+        <button
+          onClick={() => setMobileTab("editor")}
+          className={`flex-1 py-3 text-sm ${
+            mobileTab === "editor"
+              ? "border-b-2 border-black font-medium"
+              : "text-gray-500"
+          }`}
+        >
+          Editor
+        </button>
+
+        <button
+          onClick={() => setMobileTab("preview")}
+          className={`flex-1 py-3 text-sm ${
+            mobileTab === "preview"
+              ? "border-b-2 border-black font-medium"
+              : "text-gray-500"
+          }`}
+        >
+          Preview
+        </button>
+      </div>
+
       {/* MAIN */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
 
         {/* LEFT PANEL */}
-        <div className="w-[380px] bg-white border-r overflow-y-auto p-4 space-y-4">
+        <div
+          className={`
+            ${
+              mobileTab === "editor"
+                ? "flex"
+                : "hidden"
+            }
+            md:flex
+            w-full md:w-[380px]
+            bg-white border-r
+            overflow-y-auto
+            p-4
+            flex-col
+            space-y-4
+          `}
+        >
 
-          {/* TEMPLATES */}
+          {/* TEMPLATE */}
           <Card title="Templates">
+
             <div className="grid grid-cols-2 gap-2">
+
               {["modern", "classic", "minimal", "bold"].map((t) => (
                 <button
                   key={t}
                   onClick={() => setTemplate(t)}
-                  className={`text-xs py-2 rounded border transition ${
-                    template === t ? "bg-black text-white" : ""
-                  }`}
+                  className={`
+                    text-xs py-2 rounded border transition
+
+                    ${
+                      template === t
+                        ? "bg-black text-white"
+                        : "bg-white"
+                    }
+                  `}
                 >
                   {t}
                 </button>
@@ -217,11 +308,14 @@ export default function App() {
 
           {/* PERSONAL INFO */}
           <Card title="Personal Info">
+
             {["name", "title", "email", "phone"].map((k) => (
               <input
                 key={k}
                 value={data.header[k]}
-                onChange={(e) => setHeader(k, e.target.value)}
+                onChange={(e) =>
+                  setHeader(k, e.target.value)
+                }
                 placeholder={k.toUpperCase()}
                 className="input"
               />
@@ -230,21 +324,28 @@ export default function App() {
 
           {/* SUMMARY */}
           <Card title="Summary">
+
             <textarea
               value={data.summary}
-              onChange={(e) => setField("summary", e.target.value)}
+              onChange={(e) =>
+                setField("summary", e.target.value)
+              }
               placeholder="Write a professional summary..."
               className="input"
-              rows={3}
+              rows={4}
             />
           </Card>
 
           {/* SKILLS */}
           <Card title="Skills">
+
             <input
-              placeholder="React, JavaScript, Product Design"
+              placeholder="React, JavaScript, UI Design"
               onChange={(e) =>
-                setField("skills", e.target.value.split(","))
+                setField(
+                  "skills",
+                  e.target.value.split(",")
+                )
               }
               className="input"
             />
@@ -278,26 +379,64 @@ export default function App() {
           />
         </div>
 
-        {/* RIGHT PREVIEW */}
-        <div className="flex-1 flex justify-center p-10 overflow-auto">
+        {/* RIGHT PANEL */}
+        <div
+          className={`
+            ${
+              mobileTab === "preview"
+                ? "flex"
+                : "hidden"
+            }
+            md:flex
+            flex-1
+            justify-center
+            overflow-auto
+            p-4 md:p-10
+          `}
+        >
 
-          <div className="w-[850px]">
+          <div className="w-full max-w-[850px]">
 
             <div
               ref={printRef}
-              className="bg-white shadow-xl rounded-xl p-14 leading-relaxed"
+              className={`
+                bg-white
+                shadow-xl
+                rounded-xl
+                leading-relaxed
+                w-full
+
+                ${
+                  template === "minimal"
+                    ? "p-6 md:p-10"
+                    : "p-6 md:p-14"
+                }
+
+                ${
+                  template === "bold"
+                    ? "border-t-[10px] border-black"
+                    : ""
+                }
+
+                ${
+                  template === "classic"
+                    ? "font-serif"
+                    : ""
+                }
+              `}
             >
 
               {/* HEADER */}
-              <h1 className="text-4xl font-semibold">
+              <h1 className="text-3xl md:text-4xl font-semibold">
                 {data.header.name || "Your Name"}
               </h1>
 
-              <p className="text-gray-600">
-                {data.header.title || "Professional Title"}
+              <p className="text-gray-600 mt-1">
+                {data.header.title ||
+                  "Professional Title"}
               </p>
 
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-2 break-words">
                 {data.header.email} • {data.header.phone}
               </p>
 
@@ -305,12 +444,17 @@ export default function App() {
 
               {/* SUMMARY */}
               <Section title="SUMMARY">
-                <p>{data.summary || "Write your professional summary..."}</p>
+                <p className="text-sm">
+                  {data.summary ||
+                    "Write your professional summary..."}
+                </p>
               </Section>
 
               {/* SKILLS */}
               <Section title="SKILLS">
+
                 <div className="flex flex-wrap gap-2">
+
                   {data.skills.map((s, i) => (
                     <span key={i} className="tag">
                       {s}
@@ -321,45 +465,66 @@ export default function App() {
 
               {/* EXPERIENCE */}
               <Section title="EXPERIENCE">
+
                 {data.experience.map((e, i) => (
-                  <div key={i} className="mb-4">
-                    <div className="flex justify-between">
+                  <div key={i} className="mb-5">
+
+                    <div className="flex justify-between gap-4">
+
                       <strong>{e.role}</strong>
-                      <span className="text-xs text-gray-500">
+
+                      <span className="text-xs text-gray-500 whitespace-nowrap">
                         {e.period}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600">{e.company}</p>
-                    <p className="text-sm">{e.desc}</p>
+
+                    <p className="text-sm text-gray-600">
+                      {e.company}
+                    </p>
+
+                    <p className="text-sm mt-1">
+                      {e.desc}
+                    </p>
                   </div>
                 ))}
               </Section>
 
               {/* EDUCATION */}
               <Section title="EDUCATION">
+
                 {data.education.map((e, i) => (
-                  <div key={i} className="mb-3">
-                    <div className="flex justify-between">
+                  <div key={i} className="mb-4">
+
+                    <div className="flex justify-between gap-4">
+
                       <strong>{e.school}</strong>
-                      <span className="text-xs text-gray-500">
+
+                      <span className="text-xs text-gray-500 whitespace-nowrap">
                         {e.period}
                       </span>
                     </div>
-                    <p className="text-sm">{e.degree}</p>
+
+                    <p className="text-sm">
+                      {e.degree}
+                    </p>
                   </div>
                 ))}
               </Section>
 
               {/* PROJECTS */}
               <Section title="PROJECTS">
+
                 {data.projects.map((p, i) => (
-                  <div key={i} className="mb-3">
+                  <div key={i} className="mb-4">
+
                     <strong>{p.name}</strong>
-                    <p className="text-sm text-gray-600">{p.desc}</p>
+
+                    <p className="text-sm text-gray-600 mt-1">
+                      {p.desc}
+                    </p>
                   </div>
                 ))}
               </Section>
-
             </div>
           </div>
         </div>
@@ -367,34 +532,44 @@ export default function App() {
 
       {/* AI PANEL */}
       {aiOpen && (
-        <div className="fixed right-0 top-0 h-full w-[360px] bg-white shadow-2xl border-l p-4 z-50">
+        <div className="fixed right-0 top-0 h-full w-full md:w-[360px] bg-white shadow-2xl border-l p-4 z-50">
 
           <div className="flex justify-between mb-3">
-            <h2 className="font-semibold">AI Writing Assistant</h2>
-            <button onClick={() => setAiOpen(false)}>✕</button>
+
+            <h2 className="font-semibold">
+              AI Writing Assistant
+            </h2>
+
+            <button
+              onClick={() => setAiOpen(false)}
+            >
+              ✕
+            </button>
           </div>
 
           <textarea
             value={aiPrompt}
-            onChange={(e) => setAiPrompt(e.target.value)}
-            placeholder="e.g. Write a strong frontend summary..."
-            className="w-full border p-2 rounded text-sm"
-            rows={4}
+            onChange={(e) =>
+              setAiPrompt(e.target.value)
+            }
+            placeholder="e.g. Write a strong frontend developer summary..."
+            className="w-full border p-3 rounded text-sm"
+            rows={5}
           />
 
           <button
             onClick={() =>
               setAiOutput(
-                "Generated: Experienced developer skilled in React, scalable UI systems, and modern web apps."
+                "Generated: Experienced developer skilled in React, scalable UI systems, and modern web applications."
               )
             }
-            className="w-full mt-2 bg-black text-white text-xs py-2 rounded"
+            className="w-full mt-3 bg-black text-white text-xs py-3 rounded"
           >
             Generate
           </button>
 
           {aiOutput && (
-            <div className="mt-4 p-3 bg-gray-50 border rounded text-sm">
+            <div className="mt-4 p-4 bg-gray-50 border rounded text-sm leading-relaxed">
               {aiOutput}
             </div>
           )}
@@ -403,58 +578,88 @@ export default function App() {
 
       {/* STYLES */}
       <style>{`
+        html, body {
+          width: 100%;
+          overflow-x: hidden;
+        }
+
         .input {
           width:100%;
           border:1px solid #e5e7eb;
-          padding:8px;
-          border-radius:8px;
+          padding:10px;
+          border-radius:10px;
           font-size:12px;
-          margin-bottom:6px;
+          margin-bottom:8px;
           outline:none;
+          background:white;
+        }
+
+        .input:focus {
+          border-color:black;
         }
 
         .tag {
           font-size:11px;
-          padding:4px 8px;
+          padding:5px 10px;
           border:1px solid #ddd;
-          border-radius:6px;
+          border-radius:999px;
+          background:#fafafa;
         }
       `}</style>
     </div>
   );
 }
 
-/* COMPONENTS */
+/* ================= COMPONENTS ================= */
+
 function Card({ title, children }) {
   return (
-    <div className="border rounded-xl p-3 bg-white shadow-sm">
-      <p className="text-xs font-semibold text-gray-500 mb-2">
+    <div className="border rounded-2xl p-4 bg-white shadow-sm">
+
+      <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
         {title}
       </p>
+
       {children}
     </div>
   );
 }
 
-function SectionEditor({ title, section, data, addItem, update }) {
+function SectionEditor({
+  title,
+  section,
+  data,
+  addItem,
+  update,
+}) {
   return (
     <Card title={title}>
+
       <button
         onClick={() => addItem(section)}
-        className="text-xs bg-black text-white px-2 py-1 rounded mb-2"
+        className="text-xs bg-black text-white px-3 py-2 rounded-lg mb-3"
       >
         + Add
       </button>
 
       {data.map((item, i) => (
-        <div key={i} className="border p-2 rounded mb-2">
+        <div
+          key={i}
+          className="border p-3 rounded-xl mb-3 bg-gray-50"
+        >
+
           {Object.keys(item).map((k) => (
             <input
               key={k}
               value={item[k]}
               placeholder={k.toUpperCase()}
               onChange={(e) =>
-                update(section, i, k, e.target.value)
+                update(
+                  section,
+                  i,
+                  k,
+                  e.target.value
+                )
               }
               className="input"
             />
@@ -467,10 +672,12 @@ function SectionEditor({ title, section, data, addItem, update }) {
 
 function Section({ title, children }) {
   return (
-    <div className="mb-6">
-      <h2 className="text-[11px] tracking-widest text-gray-500 mb-3">
+    <div className="mb-7">
+
+      <h2 className="text-[11px] tracking-[3px] text-gray-500 mb-3">
         {title}
       </h2>
+
       {children}
     </div>
   );
